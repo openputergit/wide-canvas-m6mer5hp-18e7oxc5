@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCRM - AI Sales Copilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --dark-bg: #0a0a0f;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+        }
+        .cyberpunk-title {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .neon-border {
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+        .gradient-bg {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 15px var(--neon-pink);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="gradient-bg p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="cyberpunk-title text-2xl font-bold text-[var(--neon-blue)]">NeuroCRM</h1>
+                <div class="space-x-4">
+                    <button class="neon-border px-4 py-2 rounded hover-glow">Dashboard</button>
+                    <button class="neon-border px-4 py-2 rounded hover-glow">AI Coach</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard -->
+        <main class="container mx-auto p-4">
+            <!-- AI Assistant Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="neon-border p-6 rounded-lg gradient-bg">
+                    <h2 class="cyberpunk-title text-xl mb-4 neon-text">AI Sales Assistant</h2>
+                    <div class="bg-black/50 p-4 rounded-lg h-64 overflow-y-auto">
+                        <div id="chatLog" class="space-y-4">
+                            <!-- Chat messages will appear here -->
+                        </div>
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                        <input type="text" id="userInput" class="w-full bg-black/50 border border-[var(--neon-blue)] rounded p-2" placeholder="Ask your AI assistant...">
+                        <button onclick="sendMessage()" class="neon-border px-4 py-2 rounded hover-glow">Send</button>
+                    </div>
+                </div>
+
+                <div class="neon-border p-6 rounded-lg gradient-bg">
+                    <h2 class="cyberpunk-title text-xl mb-4 neon-text">Performance Metrics</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-black/50 rounded-lg">
+                            <p class="text-sm text-gray-400">Conversion Rate</p>
+                            <p class="text-2xl text-[var(--neon-blue)]">67%</p>
+                        </div>
+                        <div class="p-4 bg-black/50 rounded-lg">
+                            <p class="text-sm text-gray-400">Active Leads</p>
+                            <p class="text-2xl text-[var(--neon-blue)]">124</p>
+                        </div>
+                        <div class="p-4 bg-black/50 rounded-lg">
+                            <p class="text-sm text-gray-400">Avg. Response Time</p>
+                            <p class="text-2xl text-[var(--neon-blue)]">2.4h</p>
+                        </div>
+                        <div class="p-4 bg-black/50 rounded-lg">
+                            <p class="text-sm text-gray-400">Sales This Month</p>
+                            <p class="text-2xl text-[var(--neon-blue)]">$45K</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lead Management Section -->
+            <div class="neon-border p-6 rounded-lg gradient-bg">
+                <h2 class="cyberpunk-title text-xl mb-4 neon-text">Active Leads</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="text-left border-b border-[var(--neon-blue)]">
+                                <th class="p-2">Lead</th>
+                                <th class="p-2">Status</th>
+                                <th class="p-2">Score</th>
+                                <th class="p-2">Last Contact</th>
+                                <th class="p-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTable">
+                            <!-- Lead data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simulate AI chat functionality
+        const chatLog = document.getElementById('chatLog');
+        const userInput = document.getElementById('userInput');
+
+        function sendMessage() {
+            if (!userInput.value.trim()) return;
+            
+            // Add user message
+            appendMessage('You', userInput.value);
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "Based on the lead's behavior pattern, I recommend following up within 24 hours.",
+                    "I've analyzed your sales calls. Try emphasizing value proposition earlier in the conversation.",
+                    "The lead's engagement score is 85/100. They're showing strong buying signals.",
+                    "I've prepared a personalized email template based on this prospect's interests."
+                ];
+                appendMessage('AI Assistant', responses[Math.floor(Math.random() * responses.length)]);
+            }, 1000);
+
+            userInput.value = '';
+        }
+
+        function appendMessage(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'p-2 rounded ' + (sender === 'You' ? 'bg-blue-900/50' : 'bg-purple-900/50');
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        // Populate leads table with sample data
+        const leads = [
+            { name: "Tech Solutions Inc.", status: "Qualified", score: 85, lastContact: "2h ago" },
+            { name: "Education First", status: "Nurturing", score: 65, lastContact: "1d ago" },
+            { name: "Global Learning Ltd.", status: "Hot Lead", score: 92, lastContact: "5h ago" },
+        ];
+
+        const leadsTable = document.getElementById('leadsTable');
+        leads.forEach(lead => {
+            const row = document.createElement('tr');
+            row.className = 'border-b border-gray-800 hover:bg-black/30';
+            row.innerHTML = `
+                <td class="p-2">${lead.name}</td>
+                <td class="p-2"><span class="px-2 py-1 rounded bg-blue-900/50">${lead.status}</span></td>
+                <td class="p-2 text-[var(--neon-blue)]">${lead.score}%</td>
+                <td class="p-2">${lead.lastContact}</td>
+                <td class="p-2">
+                    <button class="neon-border px-2 py-1 rounded hover-glow text-sm">Contact</button>
+                </td>
+            `;
+            leadsTable.appendChild(row);
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
